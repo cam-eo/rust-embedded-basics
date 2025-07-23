@@ -1,41 +1,20 @@
 use esp_idf_hal::gpio::*;
+use esp_idf_hal::delay::FreeRtos;
 use esp_idf_hal::prelude::*;
-// use esp_idf_sys as _;
-
-use std::{thread, time::Duration};
 
 fn main() {
+    esp_idf_sys::link_patches();
+
     let peripherals = Peripherals::take().unwrap();
+    let pins = peripherals.pins;
 
-    let mut red = PinDriver::output(peripherals.pins.gpio48).unwrap();
-    let mut green = PinDriver::output(peripherals.pins.gpio47).unwrap();
-    let mut blue = PinDriver::output(peripherals.pins.gpio21).unwrap();
-
-    let blink_duration = Duration::from_millis(500);
+    let mut led = PinDriver::output(pins.gpio10).unwrap();
 
     loop {
-        // RED
-        red.set_high().unwrap();
-        green.set_low().unwrap();
-        blue.set_low().unwrap();
-        thread::sleep(blink_duration);
+        led.set_high().unwrap();
+        FreeRtos::delay_ms(500);
 
-        // GREEN
-        red.set_low().unwrap();
-        green.set_high().unwrap();
-        blue.set_low().unwrap();
-        thread::sleep(blink_duration);
-
-        // BLUE
-        red.set_low().unwrap();
-        green.set_low().unwrap();
-        blue.set_high().unwrap();
-        thread::sleep(blink_duration);
-
-        // ALL OFF
-        red.set_low().unwrap();
-        green.set_low().unwrap();
-        blue.set_low().unwrap();
-        thread::sleep(blink_duration);
+        led.set_low().unwrap();
+        FreeRtos::delay_ms(500);
     }
 }
