@@ -37,7 +37,7 @@ winget install usbipd
 2. ✅ List USB devices on Windows (PowerShell, not WSL)
 ```
 usbipd list
-``` Powershell
+```
 Look for your ESP32 device (likely shows as "USB Serial Device" or similar).
 
 You’ll see an output like:
@@ -85,7 +85,7 @@ sudo apt install pkg-config libssl-dev -y
 cargo install cargo-generate
 ```
 
-Setup flashing
+# Setup flashing
 
 - Setup espflash
     ```
@@ -117,7 +117,8 @@ This generates at `target/xtensa-esp32s3-espidf/release/audio-controller`
 
 3. Copy bin from WSL to windows
 
-``` WSL
+In WSL run:
+```
 cp target/xtensa-esp32s3-espidf/release/audio-controller /mnt/c/Users/camer/Desktop/audio-controller.bin
 ```
 
@@ -137,6 +138,7 @@ OK         Ports           USB-Enhanced-SERIAL CH343 (COM5)                     
 
 5. Flash from windows
 As administrator run from windows powershell:
+
 ```
 espflash flash --port COM5 C:\Users\camer\Desktop\audio-controller.bin --monitor
 ```

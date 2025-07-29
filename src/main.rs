@@ -2,31 +2,32 @@ use esp_idf_hal::gpio::*;
 use esp_idf_hal::delay::FreeRtos;
 use esp_idf_hal::prelude::*;
 use esp_idf_hal::sys::link_patches;
+use log::info;
 
 fn main() {
     // Initialize ESP-IDF patches
     link_patches();
 
-    esp_println::println!("=== ESP32-S3 LED Blink Test ===");
-    esp_println::println!("Starting initialization...");
+    info!("=== ESP32-S3 LED Blink Test ===");
+    info!("Starting initialization...");
 
     let peripherals = Peripherals::take().unwrap();
     let pins = peripherals.pins;
 
-    esp_println::println!("Peripherals initialized successfully");
+    info!("Peripherals initialized successfully");
 
 
     let mut led = match PinDriver::output(pins.gpio48) {
         Ok(pin) => pin,
         Err(e) => {
-            esp_println::println!("Failed to initialize GPIO48: {:?}", e);
+            info!("Failed to initialize GPIO48: {:?}", e);
             return;
         }
     };
     
-    esp_println::println!("LED initialized successfully!");
-    esp_println::println!("Starting blink loop...");
-    esp_println::println!("Press Ctrl+C to stop");
+    info!("LED initialized successfully!");
+    info!("Starting blink loop...");
+    info!("Press Ctrl+C to stop");
 
     let mut counter = 0;
     loop {
@@ -34,22 +35,22 @@ fn main() {
         
         // Turn the LED on
         led.set_high().unwrap();
-        esp_println::println!("Cycle {}: LED ON", counter);
+        info!("Cycle {}: LED ON", counter);
         FreeRtos::delay_ms(500);
 
         // Turn the LED off
         led.set_low().unwrap();
-        esp_println::println!("Cycle {}: LED OFF", counter);
+        info!("Cycle {}: LED OFF", counter);
         FreeRtos::delay_ms(500);
 
         // Turn the LED on
         led.set_high().unwrap();
-        esp_println::println!("Cycle {}: LED ON", counter);
+        info!("Cycle {}: LED ON", counter);
         FreeRtos::delay_ms(500);
 
         // Turn the LED off
         led.set_low().unwrap();
-        esp_println::println!("Cycle {}: LED OFF", counter);
+        info!("Cycle {}: LED OFF", counter);
         FreeRtos::delay_ms(1000);
     }
 }
