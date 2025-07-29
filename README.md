@@ -110,15 +110,18 @@ Run `sudo usermod -aG dialout $USER` to add your user to the `dailout` group
 
 # Full Flashing steps
 
-1. Run `cargo build --release`
-This generates at `target/xtensa-esp32s3-espidf/release/<your-app-name>.bin`
+1. Run `cargo clean`
 
-2. Copy bin from WSL to windows
-```
-cp target/xtensa-esp32s3-espidf/release/<your-app-name>.bin /mnt/c/Users/camer/Desktop/audio-controller.bin
+2. Run `cargo build --release`
+This generates at `target/xtensa-esp32s3-espidf/release/audio-controller`
+
+3. Copy bin from WSL to windows
+
+``` WSL
+cp target/xtensa-esp32s3-espidf/release/audio-controller /mnt/c/Users/camer/Desktop/audio-controller.bin
 ```
 
-3. Check COM port
+4. Check COM port
 In windows Powershell Run:
 ```
 Get-PnpDevice -PresentOnly | Where-Object { $_.Class -eq 'Ports' }
@@ -132,11 +135,24 @@ Status     Class           FriendlyName                                         
 OK         Ports           USB-Enhanced-SERIAL CH343 (COM5)                                                 USB\VID_...
 ```
 
-
-
-4. Flash from windows
+5. Flash from windows
 As administrator run from windows powershell:
 ```
 espflash flash --port COM5 C:\Users\camer\Desktop\audio-controller.bin --monitor
 ```
 
+
+
+#Flashing using a script
+
+Dialout the COMs
+
+``` Powershell
+wsl -d Ubuntu -u root
+```
+
+This marks the script as executable.
+
+```
+chmod +x ./scripts/flash.sh
+```
