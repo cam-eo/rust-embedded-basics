@@ -8,6 +8,9 @@ fn main() {
     // Initialize ESP-IDF patches
     link_patches();
 
+    // The log crate needs to be bound to a backend, and EspLogger does that for us here.
+    esp_idf_svc::log::EspLogger::initialize_default();
+
     info!("=== ESP32-S3 LED Blink Test ===");
     info!("Starting initialization...");
 
